@@ -1,4 +1,4 @@
-package com.questionoverflow.qof.web.dto;
+package com.questionoverflow.qof.web.dto.post;
 
 import com.questionoverflow.qof.domain.posts.Posts;
 import lombok.Builder;
