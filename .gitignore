@@ -1,3 +1,6 @@
+## oauth.yml 이그노어 추가 ###
+oauth.yml
+
 HELP.md
 .gradle
 build/
