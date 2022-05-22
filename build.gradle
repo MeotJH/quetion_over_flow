@@ -25,7 +25,12 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	//testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	//use oauth2.0
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//use sessionStorage to db library
+	implementation 'org.springframework.session:spring-session-jdbc'
 
 	runtimeOnly 'com.h2database:h2'
 }
