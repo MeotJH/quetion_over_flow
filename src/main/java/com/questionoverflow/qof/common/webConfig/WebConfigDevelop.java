@@ -9,15 +9,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Configuration
-public interface WebConfig extends WebMvcConfigurer {
+public class WebConfigDevelop implements WebConfig {
+
+    private final LoginUserArgumentResolver loginUserArgumentResolver;
 
     @Override
-    default void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(loginUserArgumentResolver);
     }
 
     @Override
-    default void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(CorsRegistry registry) {
     }
+
+
 
 }
