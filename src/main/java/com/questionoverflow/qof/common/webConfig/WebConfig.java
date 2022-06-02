@@ -9,8 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@Configuration
 public interface WebConfig extends WebMvcConfigurer {
+
+    //  https://www.holaxprogramming.com/2015/10/10/spring-boot-multi-datasources/
 
     @Override
     default void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

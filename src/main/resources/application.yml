@@ -1,27 +1,3 @@
 spring:
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/qofdb
-    username: rlawlsgks
-    password: rlawlsgks
-    driver-class-name: org.h2.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        #show_sql: true
-        format_sql: true
   config:
-    import: auth.yml
-  session:
-    store-type: jdbc
-
-
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
-
-server:
-  port: 81
+    import: auth.yml, local.yml, dev.yml
