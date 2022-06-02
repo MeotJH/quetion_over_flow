@@ -13,7 +13,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
-//@ConditionalOnProperty(name="spring.config.activate.on-profile", havingValue="!local")
 public class WebConfigDevelop implements WebConfig {
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;

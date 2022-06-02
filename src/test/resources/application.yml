@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: local.yml
   datasource:
     url: jdbc:h2:tcp://localhost/~/qofdb
     username: rlawlsgks
@@ -14,3 +16,5 @@ spring:
             scope:
               - profile
               - email
+  profiles:
+    active: local
