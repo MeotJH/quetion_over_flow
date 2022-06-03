@@ -10,6 +10,8 @@ public class PostsListResponseDto {
 
     private Long id;
     private String title;
+
+    private String cardContent;
     private String author;
     private String content;
     private LocalDateTime createdDate;
@@ -18,6 +20,7 @@ public class PostsListResponseDto {
     public PostsListResponseDto(Posts entity){
         this.id = entity.getId();
         this.title = entity.getTitle();
+        this.cardContent = entity.getCardContent();
         this.author = entity.getAuthor();
         this.content = entity.getContent();
         this.createdDate = entity.getCreatedDate();

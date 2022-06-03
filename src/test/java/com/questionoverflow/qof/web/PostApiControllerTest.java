@@ -110,6 +110,7 @@ class PostApiControllerTest {
     @Test
     @DisplayName("제목과 내용이 업데이트 되어야 한다.")
     @WithMockUser(roles="USER")
+    @Transactional
     void update() throws Exception{
 
         //given
@@ -207,6 +208,38 @@ class PostApiControllerTest {
             postsRepository.findById(entity.getId()).get();
         });
 
+
+    }
+
+    @Test
+    @DisplayName("조회수가 증가해야 한다..")
+    @WithMockUser(roles="USER")
+    @Transactional
+    void updateViewCntTest() throws Exception{
+
+        //given
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                .title("title")
+                .content("content")
+                .author("author")
+                .build());
+
+        Long updateId = savedPosts.getId();
+        Long expectedViewCnt = 1L;
+
+
+        String url = new StringBuilder().append("http://localhost:").append(port).append("/api/v1/posts/").append(updateId).toString();
+
+        //when
+        mvc.perform(patch(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(updateId))
+        );
+
+        //then
+
+        List<Posts> all = postsRepository.findAll();
+        assertThat(all.get( 0 ).getViewCnt()).isEqualTo(expectedViewCnt);
 
     }
 

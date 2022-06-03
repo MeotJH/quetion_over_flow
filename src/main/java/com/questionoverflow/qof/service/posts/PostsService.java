@@ -18,4 +18,6 @@ public interface PostsService {
     public List<PostsListResponseDto> findAll();
 
     public Long delete(Long id);
+
+    public Long updateViewCnt(Long id);
 }

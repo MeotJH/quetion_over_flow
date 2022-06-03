@@ -61,5 +61,13 @@ public class PostsServiceImpl implements PostsService {
         return id;
     }
 
+    @Override
+    @Transactional
+    public Long updateViewCnt(Long id) {
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> new NoPostException(id));
+        posts.updateViewCnt( posts.getViewCnt()+1L );
+        return posts.getViewCnt()+1L;
+    }
+
 
 }

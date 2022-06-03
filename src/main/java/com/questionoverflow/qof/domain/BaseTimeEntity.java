@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @MappedSuperclass
@@ -20,6 +21,10 @@ public class BaseTimeEntity {
 
     @LastModifiedDate
     private LocalDateTime modifiedDate;
+
+    public static String formatDateTime(LocalDateTime dateTime ){
+        return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
 
 
 }
