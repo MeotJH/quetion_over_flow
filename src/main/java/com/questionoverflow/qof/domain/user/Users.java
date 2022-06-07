@@ -26,21 +26,26 @@ public class Users extends BaseTimeEntity {
     @Column
     private String picture;
 
+    @Column
+    private String accessToken;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Builder
-    public Users(String name, String email, String picture, Role role){
+    public Users(String name, String email, String picture, String accessToken ,Role role){
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.accessToken = accessToken;
         this.role = role;
     }
 
-    public Users update(String name, String picture){
+    public Users update(String name, String picture, String accessToken){
         this.name = name;
         this.picture = picture;
+        this.accessToken = accessToken;
 
         return this;
     }
