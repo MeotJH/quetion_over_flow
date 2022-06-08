@@ -1,12 +1,10 @@
 package com.questionoverflow.qof.common.auth.dto;
 
-import com.questionoverflow.qof.common.auth.jwt.JsonWebToken;
 import com.questionoverflow.qof.common.auth.jwt.JwtProvider;
 import com.questionoverflow.qof.domain.user.Role;
 import com.questionoverflow.qof.domain.user.Users;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 

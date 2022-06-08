@@ -1,4 +1,4 @@
-package com.questionoverflow.qof.common.auth.jwt;
+package com.questionoverflow.qof.common.auth.dto;
 
 import lombok.Builder;
 import lombok.Getter;

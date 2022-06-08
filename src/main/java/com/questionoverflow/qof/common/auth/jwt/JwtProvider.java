@@ -1,16 +1,15 @@
 package com.questionoverflow.qof.common.auth.jwt;
 
+import com.questionoverflow.qof.common.auth.dto.JsonWebToken;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
+import javax.annotation.PostConstruct;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -26,22 +25,13 @@ public class JwtProvider {
 
     private Date expiryDate;
 
-    /*@Builder
-    public JwtProvider(String accessToken, Instant authDate ){
-
-        this.accessToken = accessToken;
-        this.authDate = Date.from(authDate);
-        this.expiryDate = new Date(this.authDate.getTime() + JWT_EXPIRATION_MS);
-    }*/
-
     public JwtProvider(@Value("${jwt.secret}") String JWT_SECRET ){
-        this.JWT_SECRET = JWT_SECRET;
+        this.JWT_SECRET = Base64.getEncoder().encodeToString(JWT_SECRET.getBytes());
     }
 
     public JsonWebToken generateToken(String uid) { // TO_DO 여기 argu로 role이 있었음
 
         Claims claims = Jwts.claims().setSubject(uid);
-        //claims.put("role", role);
 
         Date now = new Date();
 
@@ -55,6 +45,23 @@ public class JwtProvider {
         return JsonWebToken.builder()
                 .accessToken(jwt)
                 .build();
+    }
+
+    public boolean verifyToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(JWT_SECRET)
+                    .parseClaimsJws(token);
+            return claims.getBody()
+                    .getExpiration()
+                    .after(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String getEmail(String token) {
+        return Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getSubject();
     }
 
 }
