@@ -1,39 +1,60 @@
 package com.questionoverflow.qof.common.auth.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Date;
+
+@Component
 public class JwtProvider {
 
-    @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    @Value("${jwt.expiration-ms}")
-    private int JWT_EXPIRATION_MS;
+    private long tokenPeriod = 1000L * 60L * 10L;
 
-    private String userId;
+    private long refreshPeriod = 1000L * 60L * 60L * 24L * 30L * 3L;
 
-    private String authDate;
+    private String accessToken;
 
-    public JwtProvider( String userId, String authDate ){
-        this.userId = userId;
-        this.authDate = authDate;
+    private Date expiryDate;
+
+    /*@Builder
+    public JwtProvider(String accessToken, Instant authDate ){
+
+        this.accessToken = accessToken;
+        this.authDate = Date.from(authDate);
+        this.expiryDate = new Date(this.authDate.getTime() + JWT_EXPIRATION_MS);
+    }*/
+
+    public JwtProvider(@Value("${jwt.secret}") String JWT_SECRET ){
+        this.JWT_SECRET = JWT_SECRET;
     }
 
-    public String generateToken(Authentication authentication) {
+    public JsonWebToken generateToken(String uid) { // TO_DO 여기 argu로 role이 있었음
 
-        //Date now = new Date();
-        //Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
+        Claims claims = Jwts.claims().setSubject(uid);
+        //claims.put("role", role);
 
-        /*
-        return Jwts.builder()
-                .setSubject(userId) // 사용자
-                .setIssuedAt(new Date()) // 현재 시간 기반으로 생성
-                .setExpiration(expiryDate) // 만료 시간 세팅
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET) // 사용할 암호화 알고리즘, signature에 들어갈 secret 값 세팅
-                .compact();*/
-        return null;
+        Date now = new Date();
+
+        String jwt = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + tokenPeriod))
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .compact();
+
+        return JsonWebToken.builder()
+                .accessToken(jwt)
+                .build();
     }
+
 }

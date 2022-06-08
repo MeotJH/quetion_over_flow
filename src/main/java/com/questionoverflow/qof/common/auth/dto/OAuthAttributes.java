@@ -14,7 +14,6 @@ public class OAuthAttributes {
     private String name;
     private String email;
     private String picture;
-
     private String accessToken;
 
     @Builder
@@ -33,9 +32,6 @@ public class OAuthAttributes {
         }
 
         return ofGoogle(accessToken ,userNameAttributeName, attributes);
-
-
-
     }
 
     private static OAuthAttributes ofGoogle(String accessToken,String userNameAttributeName, Map<String, Object> attributes) {

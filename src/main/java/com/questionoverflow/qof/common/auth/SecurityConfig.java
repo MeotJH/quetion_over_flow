@@ -1,22 +1,28 @@
 package com.questionoverflow.qof.common.auth;
 
+import com.questionoverflow.qof.common.auth.jwt.JwtProvider;
 import com.questionoverflow.qof.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler successHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .headers().frameOptions().disable()
+                .and()// 기본 인증 방식 STATELESS
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
                     .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile", "/api/v1/posts/**", "/api/v1/post").permitAll()
@@ -27,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/")
                 .and()
                     .oauth2Login()
+                    .successHandler(successHandler)
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
     }
