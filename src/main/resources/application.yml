@@ -3,3 +3,5 @@ spring:
     import: auth.yml, local.yml, dev.yml
   profiles:
     default: local
+
+front-end-url : "http://localhost:3000"

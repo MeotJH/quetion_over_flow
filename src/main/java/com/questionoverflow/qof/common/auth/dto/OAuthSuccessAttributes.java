@@ -1,6 +1,6 @@
 package com.questionoverflow.qof.common.auth.dto;
 
-import com.questionoverflow.qof.common.auth.jwt.JwtProvider;
+import com.questionoverflow.qof.common.auth.jwt.JwtProviderImpl;
 import com.questionoverflow.qof.domain.user.Role;
 import com.questionoverflow.qof.domain.user.Users;
 import lombok.Builder;
@@ -17,7 +17,7 @@ public class OAuthSuccessAttributes {
     private JsonWebToken token;
 
     @Builder
-    public OAuthSuccessAttributes(Map<String, Object> attributes, JwtProvider jwt){
+    public OAuthSuccessAttributes(Map<String, Object> attributes, JwtProviderImpl jwt){
         this.name = attributes.get("name").toString();
         this.email = attributes.get("email").toString();
         this.picture = attributes.get("picture").toString();

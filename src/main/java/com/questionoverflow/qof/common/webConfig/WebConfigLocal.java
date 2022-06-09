@@ -25,6 +25,7 @@ public class WebConfigLocal implements WebConfig{
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("PATCH","PUT","DELETE","GET","POST")
+                .allowCredentials(true)
                 .allowedOrigins("http://localhost:3000");
 
     }

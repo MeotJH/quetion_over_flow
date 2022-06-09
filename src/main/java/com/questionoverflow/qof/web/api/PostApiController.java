@@ -1,4 +1,4 @@
-package com.questionoverflow.qof.web;
+package com.questionoverflow.qof.web.api;
 
 import com.questionoverflow.qof.service.posts.PostsService;
 import com.questionoverflow.qof.web.dto.post.PostsListResponseDto;

@@ -1,15 +1,13 @@
 package com.questionoverflow.qof.common.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.questionoverflow.qof.common.auth.dto.OAuthSuccessAttributes;
-import com.questionoverflow.qof.common.auth.jwt.JwtProvider;
+import com.questionoverflow.qof.common.auth.jwt.JwtProviderImpl;
 import com.questionoverflow.qof.domain.user.UserRepository;
 import com.questionoverflow.qof.domain.user.Users;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +22,10 @@ import java.io.IOException;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
-    private final JwtProvider jwtProvider;
+    private final JwtProviderImpl jwtProvider;
+
+    @Value("${front-end-url}")
+    String url;
 
 
     @Transactional
@@ -38,8 +39,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .build();
 
         saveOrUpdate(attributes);
-
-        response.sendRedirect("http://localhost:3000/?token="+attributes.getToken().getAccessToken());
+        String contextPath = request.getContextPath();
+        response.sendRedirect(url+"?token="+attributes.getToken().getAccessToken());
     }
 
     private Users saveOrUpdate(OAuthSuccessAttributes attributes) {
