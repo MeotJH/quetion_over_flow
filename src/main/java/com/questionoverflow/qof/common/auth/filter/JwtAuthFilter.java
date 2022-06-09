@@ -22,14 +22,6 @@ public class JwtAuthFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request1 = (HttpServletRequest) request;
-        Enumeration<String> headerNames = request1.getHeaderNames();
-
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                System.out.println("Header: " + request1.getHeader(headerNames.nextElement()));
-            }
-        }
 
         String token = ((HttpServletRequest) request).getHeader("Authorization");
 
