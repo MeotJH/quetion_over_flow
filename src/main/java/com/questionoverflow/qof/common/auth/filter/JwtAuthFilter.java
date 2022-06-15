@@ -1,6 +1,8 @@
 package com.questionoverflow.qof.common.auth.filter;
 
 import com.questionoverflow.qof.common.auth.jwt.JwtProvider;
+import com.questionoverflow.qof.common.exception.CommonException;
+import com.questionoverflow.qof.common.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +14,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Enumeration;
 
 @RequiredArgsConstructor
 public class JwtAuthFilter extends GenericFilterBean {
@@ -23,17 +24,21 @@ public class JwtAuthFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        String token = ((HttpServletRequest) request).getHeader("Authorization");
+            String token = ((HttpServletRequest) request).getHeader("Authorization");
 
-        if( token != null ){
-            token = token.replace("Bearer ","");
-        }
+            //Exception처리 만들어야함 TODO
 
-        if( token != null && jwtProvider.verifyToken(token) ){
-            Authentication authentication = jwtProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+            if( token != null){
+                token = token.replace("Bearer ","");
+            }
 
-        chain.doFilter(request, response);
+            if( token != null && jwtProvider.verifyToken(token) ){
+                Authentication authentication = jwtProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+
+            chain.doFilter(request, response);
+
+
     }
 }

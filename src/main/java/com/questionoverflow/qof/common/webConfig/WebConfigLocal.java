@@ -14,13 +14,6 @@ import java.util.List;
 @ConditionalOnProperty(name="spring.config.activate.on-profile", havingValue="local")
 public class WebConfigLocal implements WebConfig{
 
-    private final LoginUserArgumentResolver loginUserArgumentResolver;
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(loginUserArgumentResolver);
-    }
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

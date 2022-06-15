@@ -21,7 +21,6 @@ import java.util.Collections;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
 
-
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService delegate = new DefaultOAuth2UserService();
@@ -35,8 +34,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, accessToken ,userNameAttributeName, oAuth2User.getAttributes());
 
-        //여기서 업데이트 하게 되는 부분 없애고 rolekey만 가져오게 바꿔야함 TO_DOS
-        Users users = saveOrUpdate(attributes);
+        //여기서 업데이트 하게 되는 부분 없애고 rolekey만 가져오게 바꿔야함 TODO
+        Users users = getUser(attributes);
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(users.getRoleKey())),
@@ -45,11 +44,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
 
-    private Users saveOrUpdate(OAuthAttributes attributes) {
-        Users users = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(), attributes.getPicture(), attributes.getAccessToken()))
-                .orElse(attributes.toEntity());
-
-        return userRepository.save(users);
+    private Users getUser(OAuthAttributes attributes) {
+        return userRepository.findByEmail(attributes.getEmail()).get();
     }
 }

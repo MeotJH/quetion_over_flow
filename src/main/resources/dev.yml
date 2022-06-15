@@ -15,10 +15,6 @@ spring:
   config:
     activate:
       on-profile: dev
-  session:
-    store-type: jdbc
-    jdbc:
-      initialize-schema: always
 
 
 logging:

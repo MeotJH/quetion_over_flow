@@ -1,5 +1,6 @@
 package com.questionoverflow.qof.domain.user;
 
+import com.questionoverflow.qof.common.auth.dto.JsonWebToken;
 import com.questionoverflow.qof.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,10 +43,10 @@ public class Users extends BaseTimeEntity {
         this.role = role;
     }
 
-    public Users update(String name, String picture, String accessToken){
+    public Users update(String name, String picture, JsonWebToken tokens){
         this.name = name;
         this.picture = picture;
-        this.accessToken = accessToken;
+        this.accessToken = tokens.getAccessToken();
 
         return this;
     }

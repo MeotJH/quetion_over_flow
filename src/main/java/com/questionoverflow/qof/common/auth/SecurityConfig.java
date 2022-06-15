@@ -16,20 +16,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
-
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     private final JwtProvider jwtProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .and()
                 .headers().frameOptions().disable()
                 .and()// 기본 인증 방식 STATELESS
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile", "/api/v1/posts/**", "/api/v1/post").permitAll()
+                    .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile", "/api/v1/posts", "/api/v1/posts/**", "/api/v1/auth/**").permitAll()
                     .antMatchers("/api/v1/**").hasRole(Role.USER.name())
                     .anyRequest().authenticated()
                 .and()

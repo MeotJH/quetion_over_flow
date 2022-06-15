@@ -15,10 +15,6 @@ spring:
       hibernate:
         #show_sql: true
         format_sql: true
-  session:
-    store-type: jdbc
-    jdbc:
-      initialize-schema: always
 
 
 logging:

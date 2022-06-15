@@ -14,10 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.Date;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -37,11 +36,12 @@ public class JwtProviderImpl implements JwtProvider{
     private final UserRepository userRepository;
 
     @Override
-    public JsonWebToken generateToken(String uid) { // TO_DO 여기 argu로 role이 있었음
+    public JsonWebToken generateToken(String uid) { // TODO 여기 argu로 role이 있었음
 
         Claims claims = Jwts.claims().setSubject(uid);
 
         Date now = new Date();
+        HashMap<String,JsonWebToken> tokenHm = new HashMap<>();
 
         String jwt = Jwts.builder()
                 .setClaims(claims)
@@ -50,8 +50,16 @@ public class JwtProviderImpl implements JwtProvider{
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
 
+        String refreshJwt = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshPeriod))
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .compact();
+
         return JsonWebToken.builder()
                 .accessToken(jwt)
+                .refreshToken(refreshJwt)
                 .build();
     }
 
@@ -80,6 +88,23 @@ public class JwtProviderImpl implements JwtProvider{
         String email = getEmail(jwtToken);
         Users users = userRepository.findByEmail(email).get();
         return new UsernamePasswordAuthenticationToken(users,"", Arrays.asList(new SimpleGrantedAuthority(users.getRoleKey())));
+    }
+
+    @Override
+    public JsonWebToken refreshToken(HttpServletRequest request) {
+
+        Cookie[] cookies = request.getCookies();
+        JsonWebToken jsonWebToken = null;
+
+        for (Cookie cookie : cookies) {
+
+            if( cookie.getName().equals("RefreshToken") &&  verifyToken(cookie.getValue() ) == true){
+                jsonWebToken = generateToken(getEmail(cookie.getValue()));
+            }
+
+        }
+
+        return jsonWebToken;
     }
 
 

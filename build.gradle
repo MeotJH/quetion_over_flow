@@ -30,7 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	//use sessionStorage to db library
-	implementation 'org.springframework.session:spring-session-jdbc'
+	//implementation 'org.springframework.session:spring-session-jdbc'
 
 	//jwt
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
