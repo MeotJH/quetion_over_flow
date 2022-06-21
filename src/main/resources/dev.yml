@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/qofdb
-    username: rlawlsgks
-    password: rlawlsgks
-    driver-class-name: org.h2.Driver
+    url: jdbc:mariadb://database-1.cbjmqcjskomt.ap-northeast-2.rds.amazonaws.com:3306
+    username: meotjh
+    password: rlawlsgks12
+    driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
