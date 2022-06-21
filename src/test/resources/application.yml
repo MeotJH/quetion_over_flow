@@ -2,10 +2,17 @@ spring:
   config:
     import: local.yml
   datasource:
-    url: jdbc:h2:tcp://localhost/~/qofdb
-    username: rlawlsgks
-    password: rlawlsgks
-    driver-class-name: org.h2.Driver
+    #url: jdbc:h2:tcp://localhost/~/qofdb
+    #username: rlawlsgks
+    #password: rlawlsgks
+    #driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
   security:
     oauth2:
       client:
@@ -21,3 +28,5 @@ spring:
 
 jwt:
   secret: "SGVsbG9Xb3JsZA=="
+
+front-end-url : "http://localhost:3000"
