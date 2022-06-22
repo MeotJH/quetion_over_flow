@@ -1,6 +1,6 @@
 spring:
   config:
-    import: auth.yml, local.yml, dev.yml
+    import: local.yml, dev.yml
   profiles:
     default: local
 
