@@ -2,7 +2,7 @@ spring:
   config:
     activate:
       on-profile: local
-    import: auth.yml
+    #import: auth.yml
   datasource:
     #url: jdbc:h2:tcp://localhost/~/qofdb
     #username: rlawlsgks
